@@ -10,7 +10,7 @@ const quantityUSDT = fixedQauntity / ( 1.0005 + ( fees / 100) )
 let quanitityToken = quantityUSDT / currentPrice
 
 
-const numberDecimal = document.querySelector('.exchange-state-wrap.exchange-card').querySelectorAll('dd')[4].querySelectorAll('p')[1].innerText.split(".")[1].split(" ")[0].length 
+const numberDecimal = document.querySelectorAll('dd')[4].querySelectorAll('p')[1].innerText.split(".")[1].split(" ")[0].length 
 
 console.log("quantity of token"+quanitityToken+ " " + "trade price "+ currentPrice+ " count decimal "+ numberDecimal)
 
