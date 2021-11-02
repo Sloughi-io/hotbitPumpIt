@@ -54,4 +54,4 @@ console.log("#Respons 100%..");
   });
   
 ```
-[![](https://raw.githubusercontent.com/Sloughi-io/hotbitIt/main/image.png)]
+[![](https://github.com/Sloughi-io/hotbitIt/blob/main/image.png?raw=true)]
