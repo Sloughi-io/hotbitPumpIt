@@ -11,9 +11,9 @@ fetch("https://www.hotbit.io/v1/public/market/status24h?platform=web", requestOp
 	console.log("Load all list Coins 10%....")
 	 setTimeout(checkOrder,5000);
 });
-*/
-  .catch(error => console.log('error', error));
 
+  .catch(error => console.log('error', error));
+*/
 async function hotbitPumpIt({coin="BNB",fixedQauntity=intialFixedQauntity}) {
 
 	
