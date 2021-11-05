@@ -27,6 +27,8 @@ const quanitityToken = quantityUSDT / currentPrice
 
 //const numberDecimal = globalThis.allCoins[coin+"USDT"]
 //const numberDecimal = currentPrice.toString().split('.')[1] && currentPrice.toString().split('.')[1].length || 8; //default 8
+//const map = new Map(Object.entries(globalThis.allCoins));
+//const getDecimal = map.get(coin+"USDT").base_volume.split('.')[1].length
 const numberDecimal = document.querySelectorAll('dd')[4].querySelectorAll('p')[1].innerText.split(".")[1].split(" ")[0].length;
 
 	
