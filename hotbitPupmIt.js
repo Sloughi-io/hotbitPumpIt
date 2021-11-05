@@ -69,8 +69,12 @@ const body = `price=${price}&quantity=${quantity}&market=${coin}%2FUSDT&side=${s
   return response.json();
 }
 
-async function hotbitPumpSell({coin="BNB",fixedQauntity=intialFixedQauntity, price=currentPrice}) {
-	
+async function hotbitPumpSell({coin="BNB"}) {
+
+const checkCoin = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[2].innerText
+const price = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[3].innerText
+const quantity = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[4].innerText.split(" ")[0]
+
 let intialData = {
 	price:price,
 	quantity:fixedQauntity,
@@ -89,19 +93,23 @@ const body = `price=${price}&quantity=${quantity}&market=${coin}%2FUSDT&side=${s
 	const url = 'https://www.hotbit.io/v1/order/create?platform=web';
 
 	console.log("sell request wait 3la raz9ak 23%...");
-
-	const response = await fetch(url, {
-    		method: 'POST', //
-    		credentials: 'same-origin', //
-    		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-			'user-agent' :'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-			'referer' : 'https://www.hotbit.io',
-		coockie,
-	},
-    body,
-  });
-  return response.json();
+	const response;
+	if( checkCoin == coin+"USDT" ){
+	
+		response = await fetch(url, {
+				method: 'POST', //
+				credentials: 'same-origin', //
+				headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'user-agent' :'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
+				'referer' : 'https://www.hotbit.io',
+			coockie,
+			},
+			body,
+		});
+	}
+	
+	return response.json();
 }
 
 
@@ -110,17 +118,12 @@ function checkOrder(){
 const fixedQauntity = prompt("Qauntity") || 20.00;
 const coin = prompt("Coin").toUpperCase() || "BNB";
 
-const checkCoin = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[2].innerText
-const price = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[3].innerText
-const quantity = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[4].innerText.split(" ")[0]
-
 hotbitPumpIt({coin,fixedQauntity}).then(data => {
 	console.log("#Response buy 100%..");
 	console.info(data);
-	if( checkCoin == coin+"USDT" ){
-		hotbitPumpSell({coin,quantity,price}).then(data => {
-			console.log("#Response sell 100%..");
-		}
+	
+	hotbitPumpSell({coin}).then(data => {
+		console.log("#Response sell 100%..");
 	}
 
 })
