@@ -69,6 +69,7 @@ const body = `price=${price}&quantity=${quantity}&market=${coin}%2FUSDT&side=${s
   return response.json();
 }
 
+let _index = 1;
 async function hotbitPumpSell({coin="BNB"}) {
 
 const checkCoin = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[2].innerText
@@ -93,10 +94,16 @@ const body = `price=${price}&quantity=${quantity}&market=${coin}%2FUSDT&side=${s
 	const url = 'https://www.hotbit.io/v1/order/create?platform=web';
 
 	console.log("sell request wait 3la raz9ak 23%...");
-	const response;
-	if( checkCoin == coin+"USDT" ){
 	
-		response = await fetch(url, {
+	if( checkCoin !== coin+"USDT" ){
+        console.log(`check number =>${_index++}`);
+     setTimeout(_=>hotbitPumpSell({coin}).then(data => {
+		console.log("#Response sell 100%. in. :)");
+	},100))
+    return
+    }
+	
+		const response = await fetch(url, {
 				method: 'POST', //
 				credentials: 'same-origin', //
 				headers: {
@@ -107,7 +114,7 @@ const body = `price=${price}&quantity=${quantity}&market=${coin}%2FUSDT&side=${s
 			},
 			body,
 		});
-	}
+	
 	
 	return response.json();
 }
@@ -120,9 +127,9 @@ const coin = prompt("Coin").toUpperCase() || "BNB";
 
 hotbitPumpIt({coin,fixedQauntity}).then(data => {
 	console.log("#Response buy 100%..");
-	console.info(data);
+	   console.info(data);
 	
-	hotbitPumpSell({coin}).then(data => {
+     	hotbitPumpSell({coin}).then(data => {
 		console.log("#Response sell 100%..");
 	}
 
@@ -130,8 +137,8 @@ hotbitPumpIt({coin,fixedQauntity}).then(data => {
 
 
 }
+
 setTimeout(checkOrder,5000); // remove if active auto fetch all coins
 
 
 
-}
