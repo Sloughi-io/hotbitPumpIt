@@ -11,32 +11,29 @@ fetch("https://www.hotbit.io/v1/public/market/status24h?platform=web", requestOp
 	console.log("Load all list Coins 10%....")
 	 setTimeout(checkOrder,5000);
 });
-
   .catch(error => console.log('error', error));
 */
 async function hotbitPumpIt({coin="BNB",fixedQauntity=intialFixedQauntity}) {
 
 	
 let res_currentPrice = await fetch( "https://api.hotbit.io/api/v1/market.last?market="+coin+"/USDT");
-    let {result:currentPrice=0.0} = await res_currentPrice.json();
+let {result:currentPrice=0.0} = await res_currentPrice.json();
 
+const decimalPrice =  currentPrice.split(".")[1].length
 
 /// Calculate the quantity of the token
 const quantityUSDT = fixedQauntity / ( 1.0005 + ( fees / 100) )
 const quanitityToken = quantityUSDT / currentPrice
 
-//const numberDecimal = globalThis.allCoins[coin+"USDT"]
-//const numberDecimal = currentPrice.toString().split('.')[1] && currentPrice.toString().split('.')[1].length || 8; //default 8
-//const map = new Map(Object.entries(globalThis.allCoins));
-//const getDecimal = map.get(coin+"USDT").base_volume.split('.')[1].length
-const numberDecimal = document.querySelectorAll('dd')[4].querySelectorAll('p')[1].innerText.split(".")[1].split(" ")[0].length;
+const newPrice = parseFloat(currentPrice) + parseFloat(currentPrice*0.2)
+const map = new Map(Object.entries(globalThis.allCoins));
+const getDecimal = map.get(coin+"USDT").base_volume.split('.')[1].length
 
-	
-console.log("intial info =>",{quanitityToken,currentPrice})
+console.log("intial info =>",{quanitityToken,newPrice})
 
 let intialData = {
-	price:currentPrice,
-	quantity:quanitityToken.toFixed(numberDecimal),
+	price:newPrice.toFixed(decimalPrice),
+	quantity:quanitityToken.toFixed(getDecimal),
 	coin,
 	side:'BUY',
 };
@@ -46,11 +43,8 @@ const {price,quantity,side="BUY"} = intialData;
 const body = `price=${price}&quantity=${quantity}&market=${coin}%2FUSDT&side=${side}&type=LIMIT&hide=false&use_discount=false`;
 
 	console.log("Start BOTT");
-	console.log('==',body,'==',{numberDecimal,intialData},);
-	// GET current price
-	//currentPrice = parseFloat(document.title)
-	//
-    	const coockie = document.cookie;
+    
+    const coockie = document.cookie;
 	const url = 'https://www.hotbit.io/v1/order/create?platform=web';
 
 	console.log("send request wait 3la raz9ak 23%...");
@@ -72,13 +66,13 @@ const body = `price=${price}&quantity=${quantity}&market=${coin}%2FUSDT&side=${s
 let _index = 1;
 async function hotbitPumpSell({coin="BNB"}) {
 
-const checkCoin = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[2].innerText
-const price = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[3].innerText
-const quantity = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[4].innerText.split(" ")[0]
+const checkCoin = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[2] && document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[2].innerText.trim() | ""
+const priceSell = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[3].innerText.trim()
+const quantitySell = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[4].innerText.split(" ")[0]
 
 let intialData = {
-	price:price,
-	quantity:fixedQauntity,
+	price:priceSell,
+	quantity:quantitySell,
 	coin,
 	side:'SELL',
 };
@@ -88,18 +82,17 @@ const {price,quantity,side="SELL"} = intialData;
 const body = `price=${price}&quantity=${quantity}&market=${coin}%2FUSDT&side=${side}&type=LIMIT&hide=false&use_discount=false`;
 
 	console.log("Start Sell BOTT");
-	console.log('==',body,'==',{numberDecimal,intialData},);
 
     const coockie = document.cookie;
 	const url = 'https://www.hotbit.io/v1/order/create?platform=web';
 
 	console.log("sell request wait 3la raz9ak 23%...");
 	
-	if( checkCoin !== coin+"USDT" ){
+	if( checkCoin !== coin+"USDT" && checkCoin !== ""){
         console.log(`check number =>${_index++}`);
-     setTimeout(_=>hotbitPumpSell({coin}).then(data => {
-		console.log("#Response sell 100%. in. :)");
-	},100))
+        setTimeout(_=>hotbitPumpSell({coin}).then(data => {
+		    console.log("#Response sell 100%. in. :)");
+	    },100))
     return
     }
 	
@@ -127,11 +120,11 @@ const coin = prompt("Coin").toUpperCase() || "BNB";
 
 hotbitPumpIt({coin,fixedQauntity}).then(data => {
 	console.log("#Response buy 100%..");
-	   console.info(data);
+	console.info(data);
 	
-     	hotbitPumpSell({coin}).then(data => {
-		console.log("#Response sell 100%..");
-	}
+    hotbitPumpSell({coin}).then(data => {
+	    console.log("#Response sell 100%..");
+	})
 
 })
 
@@ -139,6 +132,3 @@ hotbitPumpIt({coin,fixedQauntity}).then(data => {
 }
 
 setTimeout(checkOrder,5000); // remove if active auto fetch all coins
-
-
-
