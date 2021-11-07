@@ -66,7 +66,7 @@ const body = `price=${price}&quantity=${quantity}&market=${coin}%2FUSDT&side=${s
 let _index = 1;
 async function hotbitPumpSell({coin="BNB"}) {
 
-const checkCoin = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[2] && document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[2].innerText.trim() | ""
+const checkCoin = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[2] && document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[2] && document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[2] && document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[2].innerText.trim() || ""
 const priceSell = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[3].innerText.trim()
 const quantitySell = document.querySelector('div.ordersO.exchange-card.layout-r > ul > li:nth-child(3) > table > tbody > tr ').querySelectorAll('td')[4].innerText.split(" ")[0]
 
