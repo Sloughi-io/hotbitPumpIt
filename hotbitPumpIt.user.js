@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         HotbitPumpIt
-// @namespace    http://bott.slougi.io/
+// @namespace    http://sloughi.io/
 // @version      0.1
 // @description  profet Pump!
 // @author       You
